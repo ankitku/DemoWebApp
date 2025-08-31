@@ -1,0 +1,13 @@
+# Ignore dependencies, as they should be installed inside the container
+node_modules
+
+# Ignore build output
+dist
+
+# Ignore local development environment files
+.env
+.env.*.local
+
+# Ignore logs and OS-specific files
+npm-debug.log*
+.DS_Store

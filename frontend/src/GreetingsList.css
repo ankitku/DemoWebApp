@@ -1,0 +1,195 @@
+.greetingsPage {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+}
+
+.greetingsHeader {
+  margin-bottom: 20px;
+}
+
+.greetingsContainer {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px;
+  justify-content: center;
+  padding: 20px;
+}
+
+.greetingForm {
+  display: flex;
+  gap: 10px;
+  width: 100%;
+  max-width: 500px; /* Prevents the form from being too wide on large screens */
+  margin-bottom: 30px;
+}
+
+.greetingInput {
+  flex-grow: 1;
+  padding: 12px 15px;
+  font-size: 1rem;
+  border: 1px solid #dcdcdc;
+  border-radius: 8px;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.greetingInput:focus {
+  outline: none;
+  border-color: #007bff;
+  box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.15);
+}
+
+.createButton {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 12px 20px;
+  cursor: pointer;
+  font-size: 1rem;
+  font-weight: 500;
+  transition: background-color 0.2s;
+  white-space: nowrap; /* Prevents text from wrapping */
+}
+
+.createButton:hover:not(:disabled) {
+  background-color: #0056b3;
+}
+
+.greetingCard {
+  background-color: #f9f9f9;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  padding: 16px;
+  width: 250px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+}
+
+.greetingCard:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.greetingMessage {
+  font-size: 1.1rem;
+  color: #000000;
+  margin: 0 0 12px 0;
+  word-wrap: break-word;
+  flex-grow: 1;
+}
+
+.cardFooter {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: auto;
+}
+
+.cardActions {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  margin-left: auto; /* Pushes buttons to the right */
+}
+
+.greetingTimestamp {
+  font-size: 0.8rem;
+  color: #666;
+}
+
+.deleteButton {
+  background-color: #ff4d4d;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  padding: 6px 12px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition: background-color 0.2s;
+}
+
+.deleteButton:hover {
+  background-color: #e60000;
+}
+
+.createButton:disabled {
+  background-color: #a0c7ff;
+  cursor: not-allowed;
+}
+
+.editButton {
+  background-color: #6c757d;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  padding: 6px 12px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition: background-color 0.2s;
+}
+
+.editButton:hover {
+  background-color: #5a6268;
+}
+
+/* Styles for the edit form inside the card */
+.cardEditForm {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  gap: 12px;
+}
+
+.cardEditTextarea {
+  flex-grow: 1;
+  resize: none;
+  padding: 8px;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+  font-family: inherit;
+  font-size: 1rem;
+}
+
+.cardEditTextarea:focus {
+  outline: none;
+  border-color: #007bff;
+  box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.15);
+}
+
+.saveButton {
+  background-color: #28a745;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  padding: 6px 12px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition: background-color 0.2s;
+}
+
+.saveButton:hover:not(:disabled) {
+  background-color: #218838;
+}
+
+.saveButton:disabled {
+  background-color: #82d895;
+  cursor: not-allowed;
+}
+
+.cancelButton {
+  background-color: transparent;
+  color: #6c757d;
+  border: none;
+  cursor: pointer;
+  font-size: 0.9rem;
+  padding: 6px 0;
+}
+
+.cancelButton:hover:not(:disabled) {
+  color: #343a40;
+}

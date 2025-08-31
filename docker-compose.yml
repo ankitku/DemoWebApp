@@ -1,0 +1,84 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres:15
+    container_name: postgres-db
+    environment:
+      - POSTGRES_USER=springuser
+      - POSTGRES_PASSWORD=password
+      - POSTGRES_DB=greetings_db
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U springuser -d greetings_db"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - my-network
+
+  backend:
+    build:
+      context: ./todo # Spring Boot app's Dockerfile is in the todo folder
+      dockerfile: Dockerfile
+    container_name: backend-app
+    ports:
+      - "8080:8080"
+    environment:
+      - DB_HOST=postgres # Connects to the postgres service using the service name
+      - CORS_ALLOWED_ORIGINS=http://localhost:3000 # Allow frontend access from host browser
+    depends_on:
+      postgres:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080/actuator/health"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+    networks:
+      - my-network
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+      args:
+        - VITE_API_BASE_URL=http://localhost:8080 # URL accessible from the user's browser
+    container_name: frontend-app
+    ports:
+      - "3000:80" # Expose port 3000 and map it to the container's port 80
+    depends_on:
+      backend:
+        condition: service_healthy
+    networks:
+      - my-network
+
+  pgadmin:
+    image: dpage/pgadmin4
+    container_name: pgadmin-ui
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@local.com
+      PGADMIN_DEFAULT_PASSWORD: admin
+      PGADMIN_SETUP_EMAIL: admin@local.com # Required for servers.json to be loaded
+      PGADMIN_SETUP_PASSWORD: admin # Required for servers.json to be loaded
+    ports:
+      - "5050:80"
+    depends_on:
+      - postgres
+    volumes:
+      - pgadmin-data:/var/lib/pgadmin
+      - ./todo/servers.json:/pgadmin4/servers.json # Mount the servers file to pre-configure the connection
+    networks:
+      - my-network
+
+volumes:
+  postgres-data: {}
+  pgadmin-data: {}
+
+networks:
+  my-network:
+    # The default driver is bridge, so it's not necessary to specify it.

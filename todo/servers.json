@@ -1,0 +1,13 @@
+{
+  "Servers": {
+    "1": {
+      "Name": "Postgres Spring",
+      "Group": "Servers",
+      "Port": 5432,
+      "Username": "springuser",
+      "Host": "postgres",
+      "SSLMode": "prefer",
+      "MaintenanceDB": "greetings_db"
+    }
+  }
+}
