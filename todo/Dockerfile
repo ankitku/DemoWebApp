@@ -12,6 +12,11 @@ RUN apt-get update && apt-get install -y curl && \
 # Copy the rest of the application source code
 COPY src ./src
 
+COPY mvnw pom.xml ./
+
+# Make the Maven wrapper executable
+RUN chmod +x mvnw
+
 # Build the application using the 'prod' profile.
 # The -Pprod flag activates the production profile in pom.xml,
 # which includes the PostgreSQL driver and sets the Spring profile to 'prod'.
