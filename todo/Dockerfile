@@ -22,5 +22,5 @@ COPY --from=build /app/target/*.jar app.jar
 # Expose port 8080
 EXPOSE 8080
 
-# Run app
-ENTRYPOINT ["java", "-jar", "app.jar"]
+# Force Spring to use prod profile
+ENTRYPOINT ["java", "-jar", "app.jar", "--spring.profiles.active=prod"]
