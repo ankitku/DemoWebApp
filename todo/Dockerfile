@@ -1,36 +1,26 @@
-# Stage 1: Build with Maven
-# Use a base image with Maven and JDK 17, matching your project's Java version.
-FROM maven:3.9-eclipse-temurin-17 AS build
-
-# Set the working directory in the container
+# ---- Stage 1: Build ----
+FROM maven:3.9.6-eclipse-temurin-17 AS build
 WORKDIR /app
 
-# Install curl for the healthcheck and clean up apt-get cache to keep image small
-RUN apt-get update && apt-get install -y curl && \
-    rm -rf /var/lib/apt/lists/*
+# Copy only pom.xml first and download dependencies
+COPY pom.xml .
+RUN mvn dependency:go-offline -B
 
-# Copy the rest of the application source code
+# Copy the actual project
 COPY src ./src
 
-COPY mvnw pom.xml ./
+# Build Spring Boot app (skip tests for faster CI/CD)
+RUN mvn clean package -DskipTests
 
-# Make the Maven wrapper executable
-RUN chmod +x mvnw
-
-# Build the application using the 'prod' profile.
-# The -Pprod flag activates the production profile in pom.xml,
-# which includes the PostgreSQL driver and sets the Spring profile to 'prod'.
-RUN ./mvnw clean install -Pprod -DskipTests
-
-# Stage 2: Create the final, lightweight runtime image
+# ---- Stage 2: Runtime ----
 FROM eclipse-temurin:17-jre-jammy
 WORKDIR /app
 
-# Copy the built JAR from the build stage
-COPY --from=build /app/target/todo-0.0.1-SNAPSHOT.jar app.jar
+# Copy JAR from the builder
+COPY --from=build /app/target/*.jar app.jar
 
-# Expose the port the application will run on
+# Expose port 8080
 EXPOSE 8080
 
-# Set the entrypoint to run the application
+# Run app
 ENTRYPOINT ["java", "-jar", "app.jar"]
