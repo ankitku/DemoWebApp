@@ -8,17 +8,6 @@ WORKDIR /app
 # Install curl for the healthcheck and clean up apt-get cache to keep image small
 RUN apt-get update && apt-get install -y curl && \
     rm -rf /var/lib/apt/lists/*
-    
-# Copy the Maven wrapper and project definition files.
-# This allows us to leverage Docker's layer caching for dependencies.
-COPY .mvn .mvn
-COPY mvnw pom.xml ./
-
-# Make the Maven wrapper executable
-RUN chmod +x mvnw
-
-# Download dependencies first to optimize build time
-RUN ./mvnw dependency:go-offline
 
 # Copy the rest of the application source code
 COPY src ./src

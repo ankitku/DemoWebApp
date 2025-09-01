@@ -1,13 +1,7 @@
-# Git files
 .git
 .gitignore
-
-# Maven build output
 target/
-
-# IDE configuration files
 .idea/
 *.iml
-
-# Local config files
-servers.json
+HELP.md
+*.log
